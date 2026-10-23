@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # AI 8-Puzzle Visualizer (Depth First Search)
 
 Artificial Intelligence, Digital Assignment (Case Study): Interactive 8-Puzzle Problem Solver using AI Search Algorithms.
@@ -73,3 +74,6 @@ To deploy: push to GitHub, open Settings, then Pages, choose the main branch and
 - Google Fonts, Bricolage Grotesque: https://fonts.google.com
 - Course assignment brief, Artificial Intelligence Digital Assignment (Case Study).
 - AI assistance: Claude (Anthropic) was used to help improve the interface and add features; all code was reviewed and tested by the student.
+=======
+# Case_studyy_ai_AI
+>>>>>>> fd09153a2b03fbfaf88481912aa2f1b1a3a69325

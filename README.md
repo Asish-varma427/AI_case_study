@@ -6,9 +6,7 @@ Artificial Intelligence, Digital Assignment (Case Study): Interactive 8-Puzzle P
 ## Project Description
 A browser app that solves the 8-Puzzle as a state-space search problem and shows how **Depth First Search (DFS)** explores it: the current node, its successors, the stack (frontier), the explored list and the final animated solution path. A comparison page runs BFS, DFS, DLS, IDDLS, GBFS and A* on the same puzzle.
 
-## Live Demo
-- GitHub Pages: https://YOUR-USERNAME.github.io/AI-8Puzzle-Visualizer
-- Repository: https://github.com/YOUR-USERNAME/AI-8Puzzle-Visualizer
+
 
 ## Features
 - Home page, Solver, Comparison page and Algorithm Information page

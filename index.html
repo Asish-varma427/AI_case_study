@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>8-Puzzle Solver with DFS | Artificial Intelligence</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-md">
+ <div class="container">
+  <a class="navbar-brand fw-bold" href="#home">8-Puzzle DFS</a>
+  <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nv" aria-label="Menu"><span class="navbar-toggler-icon"></span></button>
+  <div id="nv" class="collapse navbar-collapse"><div class="navbar-nav ms-auto">
+   <a class="nav-link" href="#home">Home</a><a class="nav-link" href="#solver">Solver</a><a class="nav-link" href="#compare">Comparison</a><a class="nav-link" href="#algos">Algorithms</a>
+  </div></div>
+ </div>
+</nav>
+
+<main class="container py-4">
+
+<!-- HOME -->
+<section id="home" class="pg">
+ <div class="row align-items-center g-4">
+  <div class="col-md-7">
+   <p class="mb-1 text-secondary">Course: <b>Artificial Intelligence</b> &nbsp;|&nbsp; Digital Assignment (Case Study)</p>
+   <h1 class="display-5">Interactive 8-Puzzle Problem Solver using AI Search Algorithms</h1>
+   <p class="fs-5 mb-1"><b id="sn"></b></p>
+   <p class="text-secondary">Registration number: <span id="sr"></span> &nbsp; Assigned algorithm: Depth First Search</p>
+   <a class="btn btn-acc btn-lg" href="#solver">Open the solver →</a> <a class="btn btn-outline-light btn-lg" href="#compare">Compare algorithms</a>
+   <div class="d-flex gap-2 flex-wrap mt-4"><span class="chip">9 states shown live</span><span class="chip">6 algorithms</span><span class="chip">Step-by-step replay</span></div>
+  </div>
+  <div class="col-md-5 d-flex justify-content-center"><div class="board" id="hb" style="--w:260px"></div></div>
+ </div>
+ <div class="card mt-4"><div class="card-body">
+  <h2 class="h4">The 8-Puzzle problem</h2>
+  <p>The puzzle is a 3 x 3 grid holding tiles 1 to 8 and one blank. A move slides a neighbouring tile into the blank, which is the same as moving the blank up, down, left or right. The task is to turn the initial arrangement into the goal arrangement.</p>
+  <p class="mb-0">As a search problem: a <b>state</b> is one arrangement of the nine cells; the <b>actions</b> are the legal blank moves (2 to 4 per state); each move costs <b>1</b>; the <b>goal test</b> compares a state with the goal. Only half of all 362,880 arrangements can reach any given goal, so the app checks solvability by counting inversions. This project solves it with <b>Depth First Search</b> and compares it with BFS, DLS, IDDLS, GBFS and A*.</p>
+ </div></div>
+</section>
+
+<!-- SOLVER -->
+<section id="solver" class="pg">
+ <div class="row g-3">
+  <div class="col-lg-4">
+   <div class="card"><div class="card-body">
+    <h2 class="h5">Puzzle input</h2>
+    <p class="small text-secondary mb-2">Type digits 1 to 8 and leave one cell empty (or enter 0 or _) for the blank.</p>
+    <div class="d-flex gap-3 flex-wrap">
+     <div><b class="small">Initial state</b><div id="ig" class="d-grid" style="grid-template-columns:repeat(3,46px);gap:4px"></div></div>
+     <div><b class="small">Goal state</b><div id="gg" class="d-grid" style="grid-template-columns:repeat(3,46px);gap:4px"></div></div>
+    </div>
+    <div class="d-flex gap-2 mt-3 flex-wrap">
+     <button class="btn btn-outline-light btn-sm" id="rnd">Generate Random Puzzle</button>
+     <button class="btn btn-outline-light btn-sm" id="ex">Load textbook example</button>
+    </div>
+    <div id="msg" class="small text-danger mt-2" role="alert"></div>
+    <hr>
+    <label class="form-label small fw-bold" for="alg">Algorithm</label>
+    <select id="alg" class="form-select form-select-sm mb-2"><option value="dfs">Depth First Search (DFS)</option><option value="bfs">Breadth First Search (BFS)</option><option value="dls">Depth Limited Search (DLS)</option><option value="iddls">Iterative Deepening (IDDLS)</option><option value="gbfs">Greedy Best First (GBFS)</option><option value="astar">A* Search</option></select>
+    <div id="hrow" class="d-none"><label class="form-label small fw-bold" for="hs">Heuristic</label>
+    <select id="hs" class="form-select form-select-sm mb-2"><option value="man">Manhattan Distance</option><option value="mis">Misplaced Tiles</option></select></div>
+    <div id="lrow"><label class="form-label small fw-bold" for="lim">Depth limit (DLS, IDDLS) / depth cap (DFS)</label>
+    <input id="lim" type="number" min="1" max="60" value="30" class="form-control form-control-sm"></div>
+    <div class="small text-secondary mt-3">Shortcuts: <kbd>Space</kbd> play/pause, <kbd>←</kbd> <kbd>→</kbd> step, <kbd>R</kbd> reset</div>
+   </div></div>
+  </div>
+  <div class="col-lg-8">
+   <div class="card"><div class="card-body">
+    <div class="d-flex gap-3 flex-wrap align-items-start">
+     <div><b class="small">Current state</b><div class="board" id="cur" style="--w:270px"></div></div>
+     <div><b class="small">Initial</b><div class="board" id="ib" style="--w:105px"></div><b class="small d-block mt-2">Goal</b><div class="board" id="gb" style="--w:105px"></div></div>
+     <div class="flex-fill" style="min-width:200px"><div id="stepinfo" class="fs-5 fw-bold">Press Run to start</div><div id="mvinfo" class="text-secondary"></div><div class="mt-3"><div id="algtag" class="badge-acc d-inline-block mb-2">DFS</div></div><div class="goalmeter"><span id="gm">0</span>/8 tiles in place<div class="gbar"><i id="gmb"></i></div></div></div>
+    </div>
+    <div class="d-flex gap-2 flex-wrap mt-3 align-items-center">
+     <button class="btn btn-acc btn-sm" id="run">Run</button>
+     <button class="btn btn-outline-light btn-sm" id="pause">Pause</button>
+     <button class="btn btn-outline-light btn-sm" id="resume">Resume</button>
+     <button class="btn btn-outline-light btn-sm" id="prev">Previous Step</button>
+     <button class="btn btn-outline-light btn-sm" id="next">Next Step</button>
+     <button class="btn btn-outline-light btn-sm" id="reset">Reset</button>
+     <button class="btn btn-outline-light btn-sm" id="shuf" title="Scramble the initial board">Shuffle</button>
+     <label class="small ms-2" for="spd">Speed</label><input id="spd" type="range" min="1" max="10" value="6" style="width:110px">
+    </div>
+    <input id="scrub" type="range" min="0" max="0" value="0" class="w-100 mt-3" aria-label="Step scrubber">
+   </div></div>
+   <div class="card mt-3"><div class="card-body"><h2 class="h5">Search process</h2><div id="info" class="small text-secondary">Run the search to see the current node, successors, frontier and explored list.</div></div></div>
+   <div class="card mt-3"><div class="card-body"><h2 class="h5">Solution summary</h2><div id="sum" class="small text-secondary">No search run yet.</div></div></div>
+   <div class="card mt-3"><div class="card-body"><h2 class="h5">Final solution path</h2><div id="path" class="scroll small text-secondary">The path appears once a solution is found.</div></div></div>
+  </div>
+ </div>
+</section>
+
+<!-- COMPARE -->
+<section id="compare" class="pg">
+ <div class="card"><div class="card-body">
+  <h2 class="h4">Algorithm comparison on the same puzzle</h2>
+  <p class="text-secondary">Uses the initial and goal states from the Solver page. GBFS and A* use the chosen heuristic. Searches stop after 50,000 expansions.</p>
+  <div class="d-flex gap-3 flex-wrap align-items-end mb-3">
+   <div><label class="form-label small fw-bold" for="cl">DLS depth limit</label><input id="cl" type="number" min="1" max="40" value="12" class="form-control form-control-sm" style="width:90px"></div>
+   <div><label class="form-label small fw-bold" for="ch">Heuristic</label><select id="ch" class="form-select form-select-sm"><option value="man">Manhattan Distance</option><option value="mis">Misplaced Tiles</option></select></div>
+   <button class="btn btn-acc" id="cmp">Compare all six</button>
+  </div>
+  <div class="scroll"><table class="table table-sm align-middle" id="ct"><thead><tr><th>Algorithm</th><th>Solution found</th><th>Nodes generated</th><th>Nodes expanded</th><th>Moves</th><th>Time</th><th>Memory</th></tr></thead><tbody><tr><td colspan="7" class="text-secondary">Press Compare to fill the table.</td></tr></tbody></table></div>
+  <p class="small text-secondary mb-0">Memory is estimated from the largest frontier plus the visited set at about 64 bytes per stored state. Low is under 50 KB, Medium under 500 KB, High above that.</p>
+ </div></div>
+</section>
+
+<!-- ALGORITHMS -->
+<section id="algos" class="pg"><div class="row g-3" id="ai"></div></section>
+
+</main>
+<footer class="container pb-4 small text-secondary">Built with HTML5, CSS3, JavaScript (ES6) and Bootstrap 5. Search algorithms are written from scratch.</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
